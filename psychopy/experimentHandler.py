@@ -30,6 +30,8 @@ class ExperimentHandler:
         
         logging.info('Experiment started')
         
+        # TODO: Experimentor info
+        
         # Welcome message 
         self.showText.showUntilKeyPressed(u"Welcome! Indicate you have read the text by pressing [space].") 
         
@@ -40,22 +42,33 @@ class ExperimentHandler:
         # TODO: counterbalance instead of randomize
         permutation = numpy.random.permutation(['color', 'position', 'colorPosition']);
         
+        # Txt file to save data in
+        file = open("data.txt", "w")
+        file.write("order: " + permutation[0] + ", " + permutation[1] + ", " + permutation[2]+"\n")
+        
+        nrOfTasks = 2 #per condition
+        
+        # walk through conditions
         for p in permutation:
             if p == 'color':
-                trial = TrialHandler(self.win, 2, TaskHandlerColor(self.win))
-                trial.run()
+                trial = TrialHandler(self.win, nrOfTasks, TaskHandlerColor(self.win))
+                scores = trial.run()
             elif p == 'position':
-                trial = TrialHandler(self.win, 2, TaskHandlerPosition(self.win))
-                trial.run()
+                trial = TrialHandler(self.win, nrOfTasks, TaskHandlerPosition(self.win))
+                scores = trial.run()
             else:
-                trial = TrialHandler(self.win, 2, TaskHandlerColorPosition(self.win))
-                trial.run()
+                trial = TrialHandler(self.win, nrOfTasks, TaskHandlerColorPosition(self.win))
+                scores = trial.run()
+            # Save data in each condition
+            file.write(self.toDataString(p,scores))
         
+        file.close()
         
         self.showText.showUntilKeyPressed(u"Experiment is complete.") 
         
         logging.info('Experiment finished')
-       
+        
+        
     def familiarizeRoutine(self):
         """
         Task familiarization routine.
@@ -91,4 +104,17 @@ class ExperimentHandler:
         colorPositionTask = TaskHandlerColorPosition(self.win)
         colorPositionTask.run()
         
-       
+    def toDataString(self, condition, scores):
+        """
+        Creates data string from the scores from the given condition
+        condition = string containing condition name
+        scores = list with scores of all tasks within this condition
+        """
+        
+        ff = ""
+        for s in scores:
+            ff = ff + str(s) + ","
+            
+        return condition + ":" + ff + "\n"
+        
+    

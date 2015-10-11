@@ -11,6 +11,8 @@ class TrialHandler:
         self.numRepetitions = numRepetitions
         
     def run(self):
+        scoreList = []
         for t in range(0,self.numRepetitions):
-            self.task.run()
+            scoreList.append(self.task.run())
+        return scoreList
     

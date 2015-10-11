@@ -41,7 +41,7 @@ class TaskHandler:
                 rememberedLength = rememberedLength + 1
             else:
                 self.showText.showForXSec(u"Wrong.", 1)
-                return
+                return rememberedLength
             
     def _presentSequence(self):
         """
