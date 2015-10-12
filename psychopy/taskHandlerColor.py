@@ -20,7 +20,7 @@ class TaskHandlerColor(TaskHandler):
         TaskHandler.__init__(self, win)
     
     def startText(self):
-        self.showText.showForXSec(u"Remember the color sequence.", 1.5)
+        self.showText.showForXSec(u"Remember the following color sequence:", 1.5)
     
     def present(self, stimulus):
             # Present blank screen
@@ -40,7 +40,14 @@ class TaskHandlerColor(TaskHandler):
         """
         p = 0
         
+        #draw text
+        txt = "Repeat the sequence by pressing the corresponding keys on your keyboard"
+        text = visual.TextStim(win=self.win, text= txt, color='#444444', height=0.05)
+        text.setPos((0,0.3))
+        text.draw()
+        
         for k in permutation:
+            #draw rectange
             rect = visual.Rect(self.win, 0.45/self.numOptions, 0.45/self.numOptions)
             rect.setFillColor(self.colors[k])
             rect.setPos((-0.5 + float(p) / self.numOptions + 0.1, 0))
@@ -50,6 +57,12 @@ class TaskHandlerColor(TaskHandler):
                 rect.setLineColor(self.lineColor)
                 
             rect.draw()
+            
+            #draw corresponding key
+            txt = "[" + str(p+1) + "]"
+            key = visual.TextStim(win=self.win,text=txt, color='#444444', height=0.05)
+            key.setPos((-0.5 + float(p) / self.numOptions + 0.1, -0.1))
+            key.draw()
             
             p = p + 1
             

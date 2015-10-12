@@ -47,6 +47,7 @@ class TaskHandler:
         """
         Present a stimulus sequence.
         """
+        
         for stimulus in self.sequence:
             # Present stimulus
             self.present(stimulus)

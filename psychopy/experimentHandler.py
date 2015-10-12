@@ -30,7 +30,9 @@ class ExperimentHandler:
         
         logging.info('Experiment started')
         
-        # TODO: Experimentor info
+        # Experimenter info
+        expName = self.showText.askQuestionUntilAnswered(u"Give experimenter name:");
+        subjNumber = self.showText.askQuestionUntilAnswered(u"Give subject number:");
         
         # Welcome message 
         self.showText.showUntilKeyPressed(u"Welcome! Indicate you have read the text by pressing [space].") 
@@ -43,10 +45,12 @@ class ExperimentHandler:
         permutation = numpy.random.permutation(['color', 'position', 'colorPosition']);
         
         # Txt file to save data in
-        file = open("data.txt", "w")
+        file = open("data" + expName + str(subjNumber) + ".txt", "w")
+        file.write("experimenter: " + expName + "\n")
+        file.write("subject: " + str(subjNumber) + "\n")
         file.write("order: " + permutation[0] + ", " + permutation[1] + ", " + permutation[2]+"\n")
         
-        nrOfTasks = 2 #per condition
+        nrOfTasks = 1 #per condition
         
         # walk through conditions
         for p in permutation:
@@ -117,4 +121,4 @@ class ExperimentHandler:
             
         return condition + ":" + ff + "\n"
         
-    
+

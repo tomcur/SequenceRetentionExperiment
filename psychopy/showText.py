@@ -60,4 +60,47 @@ class ShowText:
                     # A key was pressed, return it
                     return theseKeys[0]
             
-            
+    def askQuestionUntilAnswered(self, question, keyList=['return']):
+        """
+        Ask question until the user has given an answer
+        """
+        self._display(question)
+        
+        returnPressed = False
+        inputText = ""
+        shift_flag = False
+        
+        while not returnPressed:
+            #check for keys
+            theseKeys = event.getKeys()
+            n= len(theseKeys)
+            i = 0
+            while i < n:
+
+                if theseKeys[i] == 'return':
+                    # pressing RETURN means time to stop
+                    returnPressed = True
+                    return inputText
+
+                elif theseKeys[i] == 'backspace':
+                    inputText = inputText[:-1]  # lose the final character
+                    i = i + 1
+
+                elif theseKeys[i] == 'space':
+                    inputText += ' '
+                    i = i + 1
+
+                elif theseKeys[i] in ['lshift', 'rshift']:
+                    shift_flag = True
+                    i = i + 1
+
+                else:
+                    if len(theseKeys[i]) == 1:
+                        if shift_flag:
+                            inputText += chr( ord(theseKeys[i]) - ord(' '))
+                            shift_flag = False
+                        else:
+                            inputText += theseKeys[i]
+                    i = i + 1
+                    
+            self._display(question + "\n" + inputText)
