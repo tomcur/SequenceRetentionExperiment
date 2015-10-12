@@ -87,19 +87,19 @@ class ShowText:
                     i = i + 1
 
                 elif theseKeys[i] == 'space':
-                    inputText += ' '
+                    inputText += ' '  #type a space
                     i = i + 1
 
                 elif theseKeys[i] in ['lshift', 'rshift']:
-                    shift_flag = True
+                    shift_flag = True 
                     i = i + 1
 
                 else:
                     if len(theseKeys[i]) == 1:
-                        if shift_flag:
+                        if shift_flag: #uppercase
                             inputText += chr( ord(theseKeys[i]) - ord(' '))
                             shift_flag = False
-                        else:
+                        else: # lowercase
                             inputText += theseKeys[i]
                     i = i + 1
                     

@@ -31,8 +31,8 @@ class ExperimentHandler:
         logging.info('Experiment started')
         
         # Experimenter info
-        expName = self.showText.askQuestionUntilAnswered(u"Give experimenter name:");
-        subjNumber = self.showText.askQuestionUntilAnswered(u"Give subject number:");
+        expName = self.showText.askQuestionUntilAnswered(u"Give experimenter name + press [enter]:");
+        subjNumber = self.showText.askQuestionUntilAnswered(u"Give subject number + press [enter]:");
         
         # Welcome message 
         self.showText.showUntilKeyPressed(u"Welcome! Indicate you have read the text by pressing [space].") 
@@ -50,19 +50,22 @@ class ExperimentHandler:
         file.write("subject: " + str(subjNumber) + "\n")
         file.write("order: " + permutation[0] + ", " + permutation[1] + ", " + permutation[2]+"\n")
         
-        nrOfTasks = 1 #per condition
+        nrOfTasks = 2 #nr of tasks per condition
+        c = 1 #subject is at the c'th condition
         
         # walk through conditions
         for p in permutation:
             if p == 'color':
-                trial = TrialHandler(self.win, nrOfTasks, TaskHandlerColor(self.win))
+                trial = TrialHandler(self.win, nrOfTasks, c, TaskHandlerColor(self.win))
                 scores = trial.run()
             elif p == 'position':
-                trial = TrialHandler(self.win, nrOfTasks, TaskHandlerPosition(self.win))
+                trial = TrialHandler(self.win, nrOfTasks, c, TaskHandlerPosition(self.win))
                 scores = trial.run()
             else:
-                trial = TrialHandler(self.win, nrOfTasks, TaskHandlerColorPosition(self.win))
+                trial = TrialHandler(self.win, nrOfTasks, c, TaskHandlerColorPosition(self.win))
                 scores = trial.run()
+            #next condition
+            c = c + 1 
             # Save data in each condition
             file.write(self.toDataString(p,scores))
         
@@ -93,17 +96,17 @@ class ExperimentHandler:
         
         self.showText.showUntilKeyPressed(u"There are three types of sequence tasks you will perform...");
         
-        self.showText.showUntilKeyPressed(u"Color.");
+        self.showText.showUntilKeyPressed(u"The first type is the color sequence task. Press [space] to start with an example.");
         
         colorTask = TaskHandlerColor(self.win)
         colorTask.run()
         
-        self.showText.showUntilKeyPressed(u"Position.");
+        self.showText.showUntilKeyPressed(u"The second type of sequence tasks is the position sequence task. Press [space] to start with an example.");
         
         positionTask = TaskHandlerPosition(self.win)
         positionTask.run()
         
-        self.showText.showUntilKeyPressed(u"Color + Position");
+        self.showText.showUntilKeyPressed(u"The third type of sequence tasks is the color+position sequence task. Press [space] to start with an example.");
         
         colorPositionTask = TaskHandlerColorPosition(self.win)
         colorPositionTask.run()

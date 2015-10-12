@@ -15,11 +15,23 @@ class TaskHandlerPosition(TaskHandler):
     #colors = {1: "#22b14c", 2: "#ed1c24", 3: "#fff200", 4: "#00a2e8"}
     
     color = "#000000"
-    positions = {
+    positions = { #normal grid positions
         1: (-0.225, 0.225), 
         2: (0.225, 0.225), 
         3: (0.225, -0.225), 
         4: (-0.225, -0.225)
+    }
+    answerPositions = { #grid positions of answer grid
+        1: (-0.13, 0.05), 
+        2: (0.13, 0.05), 
+        3: (0.13, -0.21), 
+        4: (-0.13, -0.21)
+    }
+    textPositions = { #positions of key text in answer grid
+        1: (-0.3, 0.05), 
+        2: (0.3, 0.05), 
+        3: (0.3, -0.21), 
+        4: (-0.3, -0.21)
     }
     positionKeys = {1: "q", 2: "w", 3: "s", 4: "a"}
     
@@ -31,7 +43,7 @@ class TaskHandlerPosition(TaskHandler):
         TaskHandler.__init__(self, win)
     
     def startText(self):
-        self.showText.showForXSec(u"Remember the position sequence.", 1.5)
+        self.showText.showForXSec(u"Remember the following position sequence:", 1.5)
     
     def present(self, stimulus):
         """
@@ -59,6 +71,37 @@ class TaskHandlerPosition(TaskHandler):
             
         self.win.flip()
         
+    def _showAnswerGrid(self,highlight=None):
+        """
+        Show the answer grid. If a highlight is given,
+        then that entity will be highlighted.
+        """
+        #draw text
+        txt = "Repeat the sequence by pressing the corresponding keys on your keyboard"
+        text = visual.TextStim(win=self.win, text= txt, color='#444444', height=0.05)
+        text.setPos((0,0.3))
+        text.draw()
+        
+        for k in range(1, self.numOptions+1):
+            #draw rectangle
+            rect = visual.Rect(self.win, 0.2, 0.2)
+            rect.setFillColor(self.color)
+            rect.setPos(self.answerPositions[k])
+            rect.setLineWidth(0)
+            if highlight == k:
+                rect.setLineWidth(10)
+                rect.setLineColor(self.lineColor)
+                
+            rect.draw()
+            
+            #draw corresponding key
+            txt = "[" + str(self.positionKeys[k]) + "]"
+            key = visual.TextStim(win=self.win,text=txt, color='#444444', height=0.05)
+            key.setPos(self.textPositions[k])
+            key.draw()
+            
+        self.win.flip()
+        
            
     def answer(self):
         """
@@ -66,7 +109,7 @@ class TaskHandlerPosition(TaskHandler):
         Returns true if the answer was correct, false otherwise.
         """ 
         
-        self._showGrid()
+        self._showAnswerGrid()
         alreadyReset = True
         
         taskClock = core.Clock()
@@ -75,7 +118,7 @@ class TaskHandlerPosition(TaskHandler):
         event.clearEvents(eventType='keyboard')
         a = 0
         while a < len(self.sequence):
-            # Listen for events for keys 1, 2, 3 and 4
+            # Listen for events for keys q, w, s, a
             theseKeys = event.getKeys(self.positionKeys.values())
             invKeyMap = {v: k for k, v in self.positionKeys.items()}
             
@@ -83,7 +126,7 @@ class TaskHandlerPosition(TaskHandler):
             # and specified time has elapsed
             if not alreadyReset:
                 if taskClock.getTime() >= resetTime:
-                    self._showGrid()
+                    self._showAnswerGrid()
                     alreadyReset = True
             
             if len(theseKeys) > 0:
@@ -97,7 +140,7 @@ class TaskHandlerPosition(TaskHandler):
                 answer = invKeyMap[key]
                 
                 # Highlight the chosen answer
-                self._showGrid(answer)
+                self._showAnswerGrid(answer)
                 
                 # Set time at which to reset the grid to no highlight
                 resetTime = taskClock.getTime() + 1.0
@@ -110,5 +153,5 @@ class TaskHandlerPosition(TaskHandler):
                     # Incorrect answer
                     return False
         core.wait(1)
-        self._showGrid()
+        self._showAnswerGrid()
         return True 
