@@ -15,8 +15,8 @@ class TaskHandlerColorPosition(TaskHandlerPosition):
     
     colors = {1: "#22b14c", 2: "#ed1c24", 3: "#fff200", 4: "#00a2e8"}
     
-    def __init__(self, win):
-        TaskHandlerPosition.__init__(self, win)
+    def __init__(self, win, tryout=False):
+        TaskHandlerPosition.__init__(self, win, tryout)
     
     def startText(self):
         self.showText.showForXSec(u"Remember the following color and position sequence:", 1.5)

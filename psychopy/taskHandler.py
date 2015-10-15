@@ -35,9 +35,10 @@ class TaskHandler:
     }
     positionKeys = {1: "q", 2: "w", 3: "s", 4: "a"}
     
-    def __init__(self, win):
+    def __init__(self, win, tryout=False):
         self.win = win
         self.showText = ShowText(self.win)
+        self.tryout = tryout
     
     def run(self):
         """
@@ -49,6 +50,10 @@ class TaskHandler:
         self.startText()
         
         while True:
+            
+            if(self.tryout and rememberedLength>2): #tryout tasks only take 3 correct answers
+                return rememberedLength
+            
             self.sequence.append(numpy.random.randint(1, self.numOptions+1))
             
             sounds.sequencePresentSound.play()

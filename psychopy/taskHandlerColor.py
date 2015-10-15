@@ -16,8 +16,8 @@ class TaskHandlerColor(TaskHandler):
     lineColor = "#656565"
     numOptions = 4
     
-    def __init__(self, win):
-        TaskHandler.__init__(self, win)
+    def __init__(self, win, tryout=False):
+        TaskHandler.__init__(self, win, tryout)
     
     def startText(self):
         self.showText.showForXSec(u"Remember the following color sequence:", 1.5)

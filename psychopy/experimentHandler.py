@@ -39,7 +39,7 @@ class ExperimentHandler:
         
         self.familiarizeRoutine()
         
-        self.showText.showUntilKeyPressed(u"The experiment will now begin.") 
+        self.showText.showUntilKeyPressed(u"The experiment will start by pressing [space].") 
         
         # decide order of conditions
         order = self.giveOrder(subjNr)
@@ -79,7 +79,7 @@ class ExperimentHandler:
         """
         Task familiarization routine.
         """
-        answer = self.showText.showUntilKeyPressed(u"Would you like to be familiarized with the tasks? y/n", ['y', 'n']) 
+        answer = self.showText.showUntilKeyPressed(u"Would you like to be familiarized with the tasks? [y]/[n]", ['y', 'n']) 
         
         if answer == 'n':
             return
@@ -97,18 +97,40 @@ class ExperimentHandler:
         
         self.showText.showUntilKeyPressed(u"The first type is the color sequence task. Press [space] to start with an example.");
         
-        colorTask = TaskHandlerColor(self.win)
-        colorTask.run()
+        colorTask = TaskHandlerColor(self.win, True)
+        length = colorTask.run()
         
-        self.showText.showUntilKeyPressed(u"The second type of sequence tasks is the position sequence task. Press [space] to start with an example.");
+        while(length < 1):
+            self.showText.showUntilKeyPressed(u"Please try the color sequence task again! Press [space] to start.");
+            length = colorTask.run()
         
-        positionTask = TaskHandlerPosition(self.win)
-        positionTask.run()
+        if(length==3):
+            self.showText.showUntilKeyPressed(u"You seem to understand this task! Press [space] to continue with the next type of task.");
         
-        self.showText.showUntilKeyPressed(u"The third type of sequence tasks is the color+position sequence task. Press [space] to start with an example.");
+        self.showText.showUntilKeyPressed(u"The second type of sequence task is the position sequence task. Press [space] to start with an example.");
         
-        colorPositionTask = TaskHandlerColorPosition(self.win)
-        colorPositionTask.run()
+        positionTask = TaskHandlerPosition(self.win, True)
+        length = positionTask.run()
+        
+        while(length < 1):
+            self.showText.showUntilKeyPressed(u"Please try the position sequence task again! Press [space] to start.");
+            length = colorTask.run()
+        
+        if(length==3):
+            self.showText.showUntilKeyPressed(u"You seem to understand this task! Press [space] to continue with the next type of task.");
+        
+        self.showText.showUntilKeyPressed(u"The third type of sequence task is the color+position sequence task. Press [space] to start with an example.");
+        
+        colorPositionTask = TaskHandlerColorPosition(self.win, True)
+        length = colorPositionTask.run()
+        
+        while(length < 1):
+            self.showText.showUntilKeyPressed(u"Please try the color+position sequence task again! Press [space] to start.");
+            length = colorTask.run()
+            
+        if(length==3):
+            self.showText.showUntilKeyPressed(u"You seem to understand this task! Press [space] to continue with the next type of task.");
+        
         
     def toDataString(self, subjNr, expName, order,condition, scores):
         """
@@ -130,6 +152,7 @@ class ExperimentHandler:
         method is used based on the subject number.
         """
         orders = list(permutations(["c","p","cp"]))
-        return orders[int(float(subjNr))-1]
+        index = (int(float(subjNr))-1)%6
+        return orders[index]
         
 
