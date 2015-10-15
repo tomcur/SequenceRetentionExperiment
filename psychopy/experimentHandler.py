@@ -55,13 +55,13 @@ class ExperimentHandler:
         # walk through conditions
         for p in order:
             if p == 'c':
-                trial = TrialHandler(self.win, nrOfTasks, c, TaskHandlerColor(self.win))
+                trial = TrialHandler(self.win, nrOfTasks, c, "color", TaskHandlerColor(self.win))
                 scores = trial.run()
             elif p == 'p':
-                trial = TrialHandler(self.win, nrOfTasks, c, TaskHandlerPosition(self.win))
+                trial = TrialHandler(self.win, nrOfTasks, c, "position",TaskHandlerPosition(self.win))
                 scores = trial.run()
             else:
-                trial = TrialHandler(self.win, nrOfTasks, c, TaskHandlerColorPosition(self.win))
+                trial = TrialHandler(self.win, nrOfTasks, c, "color+position", TaskHandlerColorPosition(self.win))
                 scores = trial.run()
             #next condition
             c = c + 1 
