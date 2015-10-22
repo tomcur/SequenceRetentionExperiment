@@ -79,12 +79,12 @@ class ExperimentHandler:
         """
         Task familiarization routine.
         """
-        answer = self.showText.showUntilKeyPressed(u"Would you like to be familiarized with the tasks? [y]/[n]", ['y', 'n']) 
+        answer = self.showText.showUntilKeyPressed(u"Would you like to be familiarized with the tasks? [y]es/[n]o", ['y', 'n']) 
         
         if answer == 'n':
             return
            
-        self.showText.showUntilKeyPressed(u"You will now be presented the three tasks. In each task you will have to remember an increasingingly long sequence. Each time you remember the sequence correctly, its length increases by 1. After every presentation, you have to input the correct sequence.")
+        self.showText.showUntilKeyPressed(u"The three tasks will now be presented to you. In each task you will have to remember an increasingly long sequence. Each time you remember the sequence correctly, its length increases by 1. After every presentation, you have to input the correct sequence.")
         self.showText.showUntilKeyPressed(u"When a sequence is going to be presented, you will hear the following sound.");
         sounds.sequencePresentSound.play();
         
@@ -105,7 +105,7 @@ class ExperimentHandler:
             length = colorTask.run()
         
         if(length==3):
-            self.showText.showUntilKeyPressed(u"You seem to understand this task! Press [space] to continue with the next type of task.");
+            self.showText.showUntilKeyPressed(u"You seem to understand this task. Press [space] to continue with the next type of task.");
         
         self.showText.showUntilKeyPressed(u"The second type of sequence task is the position sequence task. Press [space] to start with an example.");
         
@@ -129,7 +129,7 @@ class ExperimentHandler:
             length = colorTask.run()
             
         if(length==3):
-            self.showText.showUntilKeyPressed(u"You seem to understand this task! Press [space] to continue with the next type of task.");
+            self.showText.showUntilKeyPressed(u"You seem to understand this task! Press [space] to continue.");
         
         
     def toDataString(self, subjNr, expName, order,condition, scores):
