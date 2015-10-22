@@ -35,11 +35,11 @@ class ExperimentHandler:
         subjNr = self.showText.askQuestionUntilAnswered(u"Give subject number + press [enter]:");
         
         # Welcome message 
-        self.showText.showUntilKeyPressed(u"Welcome! Indicate you have read the text by pressing [space].") 
+        self.showText.showUntilKeyPressed(u"Welcome! Press any key to indicate you have read the text.") 
         
         self.familiarizeRoutine()
         
-        self.showText.showUntilKeyPressed(u"The experiment will start by pressing [space].") 
+        self.showText.showUntilKeyPressed(u"Press any key to start the experiment.") 
         
         # decide order of conditions
         order = self.giveOrder(subjNr)
@@ -95,41 +95,41 @@ class ExperimentHandler:
         
         self.showText.showUntilKeyPressed(u"There are three types of sequence tasks you will perform...");
         
-        self.showText.showUntilKeyPressed(u"The first type is the color sequence task. Press [space] to start with an example.");
+        self.showText.showUntilKeyPressed(u"The first type is the color sequence task. Press any key to start with an example.");
         
         colorTask = TaskHandlerColor(self.win, True)
         length = colorTask.run()
         
         while(length < 1):
-            self.showText.showUntilKeyPressed(u"Please try the color sequence task again! Press [space] to start.");
+            self.showText.showUntilKeyPressed(u"Please try the color sequence task again! Press any key to start.");
             length = colorTask.run()
         
         if(length==3):
-            self.showText.showUntilKeyPressed(u"You seem to understand this task. Press [space] to continue with the next type of task.");
+            self.showText.showUntilKeyPressed(u"You seem to understand this task. Press any key to continue with the next type of task.");
         
-        self.showText.showUntilKeyPressed(u"The second type of sequence task is the position sequence task. Press [space] to start with an example.");
+        self.showText.showUntilKeyPressed(u"The second type of sequence task is the position sequence task. Press any key to start with an example.");
         
         positionTask = TaskHandlerPosition(self.win, True)
         length = positionTask.run()
         
         while(length < 1):
-            self.showText.showUntilKeyPressed(u"Please try the position sequence task again! Press [space] to start.");
+            self.showText.showUntilKeyPressed(u"Please try the position sequence task again! Press any key to start.");
             length = colorTask.run()
         
         if(length==3):
-            self.showText.showUntilKeyPressed(u"You seem to understand this task! Press [space] to continue with the next type of task.");
+            self.showText.showUntilKeyPressed(u"You seem to understand this task! Press any key to continue with the next type of task.");
         
-        self.showText.showUntilKeyPressed(u"The third type of sequence task is the color+position sequence task. Press [space] to start with an example.");
+        self.showText.showUntilKeyPressed(u"The third type of sequence task is the color+position sequence task. Press any key to start with an example.");
         
         colorPositionTask = TaskHandlerColorPosition(self.win, True)
         length = colorPositionTask.run()
         
         while(length < 1):
-            self.showText.showUntilKeyPressed(u"Please try the color+position sequence task again! Press [space] to start.");
+            self.showText.showUntilKeyPressed(u"Please try the color+position sequence task again! Press any key to start.");
             length = colorTask.run()
             
         if(length==3):
-            self.showText.showUntilKeyPressed(u"You seem to understand this task! Press [space] to continue.");
+            self.showText.showUntilKeyPressed(u"You seem to understand this task! Press any key to continue.");
         
         
     def toDataString(self, subjNr, expName, order,condition, scores):

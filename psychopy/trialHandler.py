@@ -20,8 +20,8 @@ class TrialHandler:
             #pause screen for subject
             text = ("Condition " + str(self.conditionNr) + "/3: " + self.conditionName + "\n" 
                 + "Task " + str(t+1) + "/" + str(self.numRepetitions) + "\n"
-                + "Press [space] to continue")
-            self.showText.showUntilKeyPressed(text, keyList=['space'])
+                + "Press any key to continue")
+            self.showText.showUntilKeyPressed(text)
             
             #next task
             scoreList.append(self.task.run())

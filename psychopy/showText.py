@@ -28,9 +28,10 @@ class ShowText:
         self._display(text)
         core.wait(sec)
         
-    def showUntilKeyPressed(self, text, keyList=['space']):
+    def showUntilKeyPressed(self, text, keyList=[]):
         """
-        Show text until the spacebar is pressed.
+        Show text until a key is pressed.
+        If keyList is empty, it will listen for all keys.
         """
         
         self._display(text)
@@ -54,13 +55,16 @@ class ShowText:
                     eventCheckStarted = True
                     
                 # Check for keys
-                theseKeys = event.getKeys(keyList=keyList)
+                if keyList == []:
+                    theseKeys = event.getKeys()
+                else:
+                    theseKeys = event.getKeys(keyList=keyList)
                 
                 if len(theseKeys) > 0:
                     # A key was pressed, return it
                     return theseKeys[0]
             
-    def askQuestionUntilAnswered(self, question, keyList=['return']):
+    def askQuestionUntilAnswered(self, question):
         """
         Ask question until the user has given an answer
         """
