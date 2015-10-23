@@ -140,6 +140,7 @@ class TaskHandler:
                     clicked = pressStart
             
             if not clicked == None:
+                sounds.buttonClickSound.play();
                 if self.sequence[a] == clicked:
                     # Correct answer at this position in the sequence
                     a = a + 1
