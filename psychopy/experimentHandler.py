@@ -113,7 +113,7 @@ class ExperimentHandler:
         
         while(length < 1):
             self.showText.showUntilKeyPressed(u"Please try the position sequence task again! Press any key to start.");
-            length = colorTask.run()
+            length = positionTask.run()
         
         if(length==3):
             self.showText.showUntilKeyPressed(u"You seem to understand this task! Press any key to continue with the next type of task.");
