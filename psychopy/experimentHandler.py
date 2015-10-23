@@ -54,12 +54,15 @@ class ExperimentHandler:
         # walk through conditions
         for p in order:
             if p == 'c':
+                self.familiarizeRoutine("color")
                 trial = TrialHandler(self.win, nrOfTasks, c, "color", TaskHandlerColor(self.win))
                 scores = trial.run()
             elif p == 'p':
+                self.familiarizeRoutine("position")
                 trial = TrialHandler(self.win, nrOfTasks, c, "position",TaskHandlerPosition(self.win))
                 scores = trial.run()
             else:
+                self.familiarizeRoutine("colorposition")
                 trial = TrialHandler(self.win, nrOfTasks, c, "color+position", TaskHandlerColorPosition(self.win))
                 scores = trial.run()
             #next condition
@@ -74,61 +77,67 @@ class ExperimentHandler:
         logging.info('Experiment finished')
         
         
-    def familiarizeRoutine(self):
+    def familiarizeRoutine(self, condition="start"):
         """
         Task familiarization routine.
         """
-        answer = self.showText.showUntilKeyPressed(u"Would you like to be familiarized with the tasks? [y]es/[n]o", ['y', 'n']) 
+        if condition == "start":
         
-        if answer == 'n':
-            return
-           
-        self.showText.showUntilKeyPressed(u"The three tasks will now be presented to you. In each task you will have to remember an increasingly long sequence. Each time you remember the sequence correctly, its length increases by 1. After every presentation, you have to input the correct sequence.")
-        self.showText.showUntilKeyPressed(u"When a sequence is going to be presented, you will hear the following sound.");
-        sounds.sequencePresentSound.play();
+            self.showText.showUntilKeyPressed(u"The three tasks will now be presented to you. In each task you will have to remember an increasingly long sequence. Each time you remember the sequence correctly, its length increases by 1. After every presentation, you have to input the correct sequence.")
+            self.showText.showUntilKeyPressed(u"When a sequence is going to be presented, you will hear the following sound.");
+            sounds.sequencePresentSound.play();
+            
+            core.wait(1.0);
+            self.showText.showUntilKeyPressed(u"When you have to answer a sequence, you will hear the following sound.");
+            sounds.sequenceAnswerSound.play();
+            core.wait(1.0);
+            
+            self.showText.showUntilKeyPressed(u"There are three types of sequence tasks you will perform. The color sequence task, the position sequence task and the color+position sequence task. Before performing each task, you will be given an example task to practice with. ");
+            
+        elif condition == "color":
         
-        core.wait(1.0);
-        self.showText.showUntilKeyPressed(u"When you have to answer a sequence, you will hear the following sound.");
-        sounds.sequenceAnswerSound.play();
-        core.wait(1.0);
-        
-        self.showText.showUntilKeyPressed(u"There are three types of sequence tasks you will perform...");
-        
-        self.showText.showUntilKeyPressed(u"The first type is the color sequence task. Press any key to start with an example.");
-        
-        colorTask = TaskHandlerColor(self.win, True)
-        length = colorTask.run()
-        
-        while(length < 1):
-            self.showText.showUntilKeyPressed(u"Please try the color sequence task again! Press any key to start.");
-            length = colorTask.run()
-        
-        if(length==3):
-            self.showText.showUntilKeyPressed(u"You seem to understand this task. Press any key to continue with the next type of task.");
-        
-        self.showText.showUntilKeyPressed(u"The second type of sequence task is the position sequence task. Press any key to start with an example.");
-        
-        positionTask = TaskHandlerPosition(self.win, True)
-        length = positionTask.run()
-        
-        while(length < 1):
-            self.showText.showUntilKeyPressed(u"Please try the position sequence task again! Press any key to start.");
-            length = positionTask.run()
-        
-        if(length==3):
-            self.showText.showUntilKeyPressed(u"You seem to understand this task! Press any key to continue with the next type of task.");
-        
-        self.showText.showUntilKeyPressed(u"The third type of sequence task is the color+position sequence task. Press any key to start with an example.");
-        
-        colorPositionTask = TaskHandlerColorPosition(self.win, True)
-        length = colorPositionTask.run()
-        
-        while(length < 1):
-            self.showText.showUntilKeyPressed(u"Please try the color+position sequence task again! Press any key to start.");
+            self.showText.showUntilKeyPressed(u"You will now perform the color sequence task. Press any key to start with an example.");
+            
+            colorTask = TaskHandlerColor(self.win, True)
             length = colorTask.run()
             
-        if(length==3):
-            self.showText.showUntilKeyPressed(u"You seem to understand this task! Press any key to continue.");
+            while(length < 3):
+                self.showText.showUntilKeyPressed(u"Please practice the color sequence task again. Press any key to start.");
+                length = colorTask.run()
+            
+            if(length==3):
+                self.showText.showUntilKeyPressed(u"You seem to understand this task. Press any key to start with this task for the experiment.");
+        
+        elif condition == "position":
+        
+            self.showText.showUntilKeyPressed(u"You will now perform the position sequence task. Press any key to start with an example.");
+            
+            positionTask = TaskHandlerPosition(self.win, True)
+            length = positionTask.run()
+            
+            while(length < 3):
+                self.showText.showUntilKeyPressed(u"Please practice the position sequence task again. Press any key to start.");
+                length = positionTask.run()
+            
+            if(length==3):
+                self.showText.showUntilKeyPressed(u"You seem to understand this task. Press any key to start with this task for the experiment.");
+        
+        elif condition == "colorposition":
+        
+            self.showText.showUntilKeyPressed(u"You will now perform the color+position sequence task. Press any key to start with an example.");
+            
+            colorPositionTask = TaskHandlerColorPosition(self.win, True)
+            length = colorPositionTask.run()
+            
+            while(length < 3):
+                self.showText.showUntilKeyPressed(u"Please practice the color+position sequence task again. Press any key to start.");
+                length = colorPositionTask.run()
+                
+            if(length==3):
+                self.showText.showUntilKeyPressed(u"You seem to understand this task. Press any key to start with this task for the experiment.");
+        
+        else:
+            return;
         
         
     def toDataString(self, subjNr, expName, order,condition, scores):
