@@ -12,20 +12,41 @@ class TaskHandlerColor(TaskHandler):
     """
     Class implementing a color task.
     """
-    colors = {1: "#22b14c", 2: "#ed1c24", 3: "#fff200", 4: "#00a2e8"}
-    lineColor = "#656565"
     numOptions = 4
+    
+    # x-positions answer buttons will appear in
+    answerPositionsX = [
+        -0.375, 
+        -0.125,
+        0.125,
+        0.375
+    ]
+    
+    # Range of y-positions answer buttons will appear in
+    answerPositionYRange = (-0.35, 0.15)
+    
+    buttonPositions = [];
     
     def __init__(self, win, tryout=False):
         TaskHandler.__init__(self, win, tryout)
     
     def startText(self):
+        """
+        The text to show when the task starts.
+        """
         self.showText.showForXSec(u"Remember the following color sequence:", 1.5)
     
-    def present(self, stimulus):
+    def present(self, stimulus=None):
+        """
+        Present the stimulus grid.
+        """
+        if stimulus == None:
             # Present blank screen
             self.win.flip()
-            core.wait (0.25)
+        else:
+            # Present blank screen
+            self.win.flip()
+            core.wait(0.35)
             
             # Present stimulus
             rect = visual.Rect(self.win, 0.5, 0.5)
@@ -33,94 +54,58 @@ class TaskHandlerColor(TaskHandler):
             rect.draw()
             self.win.flip()
            
+           
+    def _populateButtons(self):
+        """
+        Function is called when buttons have to be registered (i.e.,
+        rects of button positions should be generated and registered)
+        """
+        self.buttonPositions = []
         
-    def _showAnswerGrid(self,permutation, highlight=None):
+        lowY = self.answerPositionYRange[0]
+        highY = self.answerPositionYRange[1]
+        
+        permutation = numpy.random.permutation(len(self.answerPositionsX))
+        
+        for p in range(0,self.numOptions):
+            button = permutation[p]+1
+            xPos = self.answerPositionsX[p]
+        
+            pos = (xPos, (highY - lowY) * numpy.random.ranf() + lowY)
+            self.buttonPositions.append((button, pos))
+            
+            rect = visual.Rect(self.win, 0.2, 0.2)
+            rect.setPos(pos)
+            
+            self._registerButton(rect, button)
+        
+    def _showAnswerGrid(self, highlight=None, click=False):
         """
         Show the answer grid. If a highlight is given,
         then that entity will be highlighted.
         """
         #draw text
-        txt = "Repeat the sequence by pressing the corresponding keys on your keyboard"
+        txt = "Repeat the sequence by clicking on the corresponding buttons"
         text = visual.TextStim(win=self.win, text= txt, color='#444444', height=0.05)
         text.setPos((0,0.3))
         text.draw()
         
         p = 1
         
-        for k in permutation:
+        for (button, pos) in self.buttonPositions:
             #draw rectangle
             rect = visual.Rect(self.win, 0.2, 0.2)
-            rect.setFillColor(self.colors[k])
-            rect.setPos(self.answerPositions[p])
+            rect.setFillColor(self.colors[button])
+            rect.setPos(pos)
             rect.setLineWidth(0)
-            if highlight == k:
-                rect.setLineWidth(10)
-                rect.setLineColor(self.lineColor)
+            if highlight == button:
+                rect.setFillColor(self.highlightColors[button])
+                if click:
+                    rect.setLineWidth(10)
+                    rect.setLineColor(self.lineColor)
                 
             rect.draw()
-            
-            #draw corresponding key
-            txt = "[" + str(self.positionKeys[k]) + "]"
-            key = visual.TextStim(win=self.win,text=txt, color='#444444', height=0.05)
-            key.setPos(self.textPositions[k])
-            key.draw()
             
             p = p + 1
             
         self.win.flip()
-       
-    def answer(self):
-        """
-        Subject has to recall the sequence.
-        Returns true if the answer was correct, false otherwise.
-        """ 
-        permutation = numpy.random.permutation(self.colors.keys())
-        
-        self._showAnswerGrid(permutation)
-        alreadyReset = True
-        
-        taskClock = core.Clock()
-        taskClock.reset()
-        
-        event.clearEvents(eventType='keyboard')
-        a = 0
-        while a < len(self.sequence):
-            # Listen for events for keys q, w, s, a
-            theseKeys = event.getKeys(self.positionKeys.values())
-            invKeyMap = {v: k for k, v in self.positionKeys.items()}
-            
-            # Reset answer grid highlight after answer is given 
-            # and specified time has elapsed
-            if not alreadyReset:
-                if taskClock.getTime() >= resetTime:
-                    self._showAnswerGrid(permutation)
-                    alreadyReset = True
-            
-            if len(theseKeys) > 0:
-                # Clear keyboard events
-                event.clearEvents(eventType='keyboard')
-                
-                # Get the key that was pressed
-                key = theseKeys[0]
-                
-                # Get the answer that was chosen
-                index = invKeyMap[key]
-                answer = permutation[(index-1)]
-                
-                # Highlight the chosen answer
-                self._showAnswerGrid(permutation, answer)
-                
-                # Set time at which to reset the grid to no highlight
-                resetTime = taskClock.getTime() + 1.0
-                alreadyReset = False
-                
-                if self.sequence[a] == answer:
-                    # Correct answer at this position in the sequence
-                    a = a + 1
-                else:
-                    # Incorrect answer
-                    return False
-        core.wait(1)
-        self._showAnswerGrid(permutation)
-        return True 
-    

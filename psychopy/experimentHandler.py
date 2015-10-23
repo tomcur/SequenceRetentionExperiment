@@ -27,7 +27,6 @@ class ExperimentHandler:
         """
         Run the experiment.
         """
-        
         logging.info('Experiment started')
         
         # Experimenter info

@@ -13,12 +13,13 @@ class TaskHandlerColorPosition(TaskHandlerPosition):
     Class implementing a color + position task.
     """
     
-    colors = {1: "#22b14c", 2: "#ed1c24", 3: "#fff200", 4: "#00a2e8"}
-    
     def __init__(self, win, tryout=False):
         TaskHandlerPosition.__init__(self, win, tryout)
     
     def startText(self):
+        """
+        The text to show when the task starts.
+        """
         self.showText.showForXSec(u"Remember the following color and position sequence:", 1.5)
            
     def _showGrid(self, highlight=None):
@@ -32,20 +33,19 @@ class TaskHandlerColorPosition(TaskHandlerPosition):
             rect.setPos(self.positions[k])
             rect.setLineWidth(0)
             if highlight == k:
-                rect.setLineWidth(10)
-                rect.setLineColor(self.lineColor)
+                rect.setFillColor(self.highlightColors[k])
                 
             rect.draw()
             
         self.win.flip()
 
-    def _showAnswerGrid(self,highlight=None):
+    def _showAnswerGrid(self,highlight=None,click=False):
         """
         Show the answer grid. If a highlight is given,
         then that entity will be highlighted.
         """
         #draw text
-        txt = "Repeat the sequence by pressing the corresponding keys on your keyboard"
+        txt = "Repeat the sequence by clicking on the corresponding buttons"
         text = visual.TextStim(win=self.win, text= txt, color='#444444', height=0.05)
         text.setPos((0,0.3))
         text.draw()
@@ -57,15 +57,12 @@ class TaskHandlerColorPosition(TaskHandlerPosition):
             rect.setPos(self.answerPositions[k])
             rect.setLineWidth(0)
             if highlight == k:
-                rect.setLineWidth(10)
-                rect.setLineColor(self.lineColor)
+                rect.setFillColor(self.highlightColors[k])
+                if click:
+                    rect.setLineWidth(10)
+                    rect.setLineColor(self.lineColor)
                 
             rect.draw()
             
-            #draw corresponding key
-            txt = "[" + str(self.positionKeys[k]) + "]"
-            key = visual.TextStim(win=self.win,text=txt, color='#444444', height=0.05)
-            key.setPos(self.textPositions[k])
-            key.draw()
-            
         self.win.flip()
+        
