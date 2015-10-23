@@ -1,5 +1,5 @@
 """
-@author Thomas Churchman
+@author Thomas Churchman, Diede Kemper
 
 Module that provides experiment handling. This controls the flow of the experiment
 (e.g. the order of the various routines).

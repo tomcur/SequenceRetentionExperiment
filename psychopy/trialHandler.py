@@ -1,5 +1,5 @@
 """
-@author Thomas Churchman
+@author Thomas Churchman, Diede Kemper
 
 Module that provides trial handling.
 """
