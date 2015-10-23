@@ -57,10 +57,10 @@ class TaskHandlerColorPosition(TaskHandlerPosition):
             rect.setPos(self.answerPositions[k])
             rect.setLineWidth(0)
             if highlight == k:
-                rect.setFillColor(self.highlightColors[k])
+                rect.setLineWidth(2)
+                rect.setLineColor(self.lineColor)
                 if click:
-                    rect.setLineWidth(10)
-                    rect.setLineColor(self.lineColor)
+                    rect.setFillColor(self.highlightColors[k])
                 
             rect.draw()
             

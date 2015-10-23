@@ -99,10 +99,10 @@ class TaskHandlerColor(TaskHandler):
             rect.setPos(pos)
             rect.setLineWidth(0)
             if highlight == button:
-                rect.setFillColor(self.highlightColors[button])
+                rect.setLineWidth(2)
+                rect.setLineColor(self.lineColor)
                 if click:
-                    rect.setLineWidth(10)
-                    rect.setLineColor(self.lineColor)
+                    rect.setFillColor(self.highlightColors[button])
                 
             rect.draw()
             
