@@ -69,7 +69,7 @@ class ExperimentHandler:
         
         file.close()
         
-        self.showText.showUntilKeyPressed(u"Experiment is complete.") 
+        self.showText.showUntilKeyPressed(u"The experiment is complete. Thank you!") 
         
         logging.info('Experiment finished')
         
