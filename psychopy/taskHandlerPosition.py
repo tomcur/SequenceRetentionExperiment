@@ -53,7 +53,7 @@ class TaskHandlerPosition(TaskHandler):
         else:
             # Show stimulus on grid
             self._showGrid()
-            core.wait(0.35)
+            core.wait(0.3)
             self._showGrid(stimulus)
            
     def _showGrid(self, highlight=None):

@@ -46,7 +46,7 @@ class TaskHandlerColor(TaskHandler):
         else:
             # Present blank screen
             self.win.flip()
-            core.wait(0.35)
+            core.wait(0.3)
             
             # Present stimulus
             rect = visual.Rect(self.win, 0.5, 0.5)

@@ -94,13 +94,13 @@ class TaskHandler:
         Present a stimulus sequence.
         """
         self.present(None)
-        core.wait(0.75)
+        core.wait(0.5)
         for stimulus in self.sequence:
             # Present stimulus
             self.present(stimulus)
-            core.wait(1)
+            core.wait(0.9)
         self.present(None)
-        core.wait(1)
+        core.wait(0.8)
 
     def answer(self):
         """
