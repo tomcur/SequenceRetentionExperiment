@@ -48,7 +48,7 @@ class ExperimentHandler:
         file = open("data" + expName + str(subjNr) + ".csv", "w")
         file.write("Nr,exp,order,cond,trial,score\n")
         
-        nrOfTasks = 2 #nr of tasks per condition
+        nrOfTasks = 5 #nr of tasks per condition
         c = 1 #subject is at the c'th condition
         
         # walk through conditions
@@ -83,7 +83,7 @@ class ExperimentHandler:
         """
         if condition == "start":
         
-            self.showText.showUntilKeyPressed(u"The three tasks will now be presented to you. In each task you will have to remember an increasingly long sequence. Each time you remember the sequence correctly, its length increases by 1. After every presentation, you have to input the correct sequence.")
+            self.showText.showUntilKeyPressed(u"In this experiment you have to perform three tasks. In each task you will have to remember an increasingly long sequence. Each time you remember the sequence correctly, its length increases by 2. After every presentation, you have to input the correct sequence.")
             self.showText.showUntilKeyPressed(u"When a sequence is going to be presented, you will hear the following sound.");
             sounds.sequencePresentSound.play();
             
@@ -105,8 +105,7 @@ class ExperimentHandler:
                 self.showText.showUntilKeyPressed(u"Please practice the color sequence task again. Press any key to start.");
                 length = colorTask.run()
             
-            if(length==3):
-                self.showText.showUntilKeyPressed(u"You seem to understand this task. Press any key to start with this task for the experiment.");
+            self.showText.showUntilKeyPressed(u"You seem to understand this task. Press any key to start with this task for the experiment.");
         
         elif condition == "position":
         
@@ -119,8 +118,7 @@ class ExperimentHandler:
                 self.showText.showUntilKeyPressed(u"Please practice the position sequence task again. Press any key to start.");
                 length = positionTask.run()
             
-            if(length==3):
-                self.showText.showUntilKeyPressed(u"You seem to understand this task. Press any key to start with this task for the experiment.");
+            self.showText.showUntilKeyPressed(u"You seem to understand this task. Press any key to start with this task for the experiment.");
         
         elif condition == "colorposition":
         
@@ -133,8 +131,7 @@ class ExperimentHandler:
                 self.showText.showUntilKeyPressed(u"Please practice the color+position sequence task again. Press any key to start.");
                 length = colorPositionTask.run()
                 
-            if(length==3):
-                self.showText.showUntilKeyPressed(u"You seem to understand this task. Press any key to start with this task for the experiment.");
+            self.showText.showUntilKeyPressed(u"You seem to understand this task. Press any key to start with this task for the experiment.");
         
         else:
             return;

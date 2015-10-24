@@ -50,6 +50,7 @@ class TaskHandler:
                 return rememberedLength
             
             self.sequence.append(numpy.random.randint(1, self.numOptions+1))
+            self.sequence.append(numpy.random.randint(1, self.numOptions+1))
             
             sounds.sequencePresentSound.play()
             self._presentSequence()
@@ -58,7 +59,7 @@ class TaskHandler:
             correct = self.answer()
             
             if correct:
-                rememberedLength = rememberedLength + 1
+                rememberedLength = rememberedLength + 2
             else:
                 self.showText.showForXSec(u"Wrong.", 1)
                 return rememberedLength
