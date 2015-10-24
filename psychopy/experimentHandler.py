@@ -48,7 +48,7 @@ class ExperimentHandler:
         file = open("data" + expName + str(subjNr) + ".csv", "w")
         file.write("Nr,exp,order,cond,trial,score\n")
         
-        nrOfTasks = 5 #nr of tasks per condition
+        nrOfTasks = 4 #nr of tasks per condition
         c = 1 #subject is at the c'th condition
         
         # walk through conditions
