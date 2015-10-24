@@ -35,6 +35,32 @@ class TaskHandler:
             shape, button
         ));
     
+    def __increaseSequence(self):
+        """
+        Increase the sequence by 1
+        """
+        if len(self.sequence) > 0:
+            last = self.sequence[-1]
+        else:
+            last = None
+        
+        while True:
+            append = numpy.random.randint(0, self.numOptions)+1
+            
+            # New button may not be the same as the previous button
+            if not append == last:
+                self.sequence.append(append)
+                break
+            
+   
+    def _increaseSequence(self, amount=1):
+        """
+        Increase the sequence by length amount
+        """
+        for i in range(0, amount):
+            self.__increaseSequence()
+        
+    
     def run(self):
         """
         Run the task.
@@ -49,8 +75,7 @@ class TaskHandler:
             if(self.tryout and rememberedLength==6): #tryout tasks only take 3 correct answers (3x2 = 6)
                 return rememberedLength
             
-            self.sequence.append(numpy.random.randint(1, self.numOptions+1))
-            self.sequence.append(numpy.random.randint(1, self.numOptions+1))
+            self._increaseSequence(amount=2)
             
             sounds.sequencePresentSound.play()
             self._presentSequence()
