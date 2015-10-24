@@ -101,7 +101,7 @@ class ExperimentHandler:
             colorTask = TaskHandlerColor(self.win, True)
             length = colorTask.run()
             
-            while(length < 3):
+            while(length < 6):
                 self.showText.showUntilKeyPressed(u"Please practice the color sequence task again. Press any key to start.");
                 length = colorTask.run()
             
@@ -114,7 +114,7 @@ class ExperimentHandler:
             positionTask = TaskHandlerPosition(self.win, True)
             length = positionTask.run()
             
-            while(length < 3):
+            while(length < 6):
                 self.showText.showUntilKeyPressed(u"Please practice the position sequence task again. Press any key to start.");
                 length = positionTask.run()
             
@@ -127,7 +127,7 @@ class ExperimentHandler:
             colorPositionTask = TaskHandlerColorPosition(self.win, True)
             length = colorPositionTask.run()
             
-            while(length < 3):
+            while(length < 6):
                 self.showText.showUntilKeyPressed(u"Please practice the color+position sequence task again. Press any key to start.");
                 length = colorPositionTask.run()
                 

@@ -46,7 +46,7 @@ class TaskHandler:
         
         while True:
             
-            if(self.tryout and rememberedLength>2): #tryout tasks only take 3 correct answers
+            if(self.tryout and rememberedLength==6): #tryout tasks only take 3 correct answers (3x2 = 6)
                 return rememberedLength
             
             self.sequence.append(numpy.random.randint(1, self.numOptions+1))
